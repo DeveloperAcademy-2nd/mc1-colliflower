@@ -15,7 +15,7 @@ struct MiroView<Content>: View where Content: View {
     
     @ViewBuilder var content: () -> Content
     
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 0) {
