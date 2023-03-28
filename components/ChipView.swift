@@ -19,10 +19,10 @@ struct ChipView<Content>: View where Content: View {
                 ZStack {
                     GeometryReader { geometry in
                         RoundedRectangle(cornerRadius: geometry.size.height / 2)
-                            .foregroundColor(Color("ColorBgPrimary"))
+                            .foregroundColor(Color(uiColor: .tertiarySystemBackground))
                             .shadow(color: Color.black.opacity(0.2), radius: 2, y: 2)
                         RoundedRectangle(cornerRadius: geometry.size.height / 2)
-                            .strokeBorder(Color("ColorPrimary"), style: StrokeStyle(lineWidth: 1))
+                            .strokeBorder(Color(uiColor: .tertiarySystemBackground), style: StrokeStyle(lineWidth: 1))
                             .foregroundColor(Color.clear)
                     }
                 }

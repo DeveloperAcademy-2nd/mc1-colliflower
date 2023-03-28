@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - RoundedCornerView
 struct RoundedCornerView<Content>: View where Content: View {
-    var backgroundColor: Color = Color("ColorBgSecondary")
+    var backgroundColor: Color = Color(uiColor: UIColor.secondarySystemBackground)
     var cornerRadius: CGFloat = 8.0
     var shadowColor: Color = Color.black.opacity(0.3)
     var shadowRadius: CGFloat = 0
