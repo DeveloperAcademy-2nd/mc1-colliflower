@@ -23,6 +23,8 @@ struct JunyooPage: View {
     @State private var showPrompt: Bool = false
     @State private var nextPage: Bool = false
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         MiroView(title: "INVESTIGATE",
                  message: " 팀 전체의 방향성을 존중하면서도 내 의견을 피력하는 것이 어렵지는 않았나요? \n 선을 넘지 않도록 적절한 범위에서 의견을 주고받는 것이 쉽지만은 않았을 거예요. \n 팀의 원활한 소통과 협업을 위해 서로간의 다름을 인식하는 것은 중요하답니다.") {
@@ -66,7 +68,7 @@ struct JunyooPage: View {
             
             Spacer()
             Button {
-                resetState()
+                dismiss()
             } label: {
                 Text("cancel")
                     .font(.system(size: 25))

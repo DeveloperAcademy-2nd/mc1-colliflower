@@ -14,6 +14,7 @@ struct ElcapView: View {
     @State private var progress: Float = 0.0
     
     @State private var showAlert: Bool = false
+    @State private var showEmptyAlert: Bool = false
     @State private var bye: Float = 0.0
     
     @State private var showPrompt: Bool = false
@@ -133,10 +134,12 @@ struct ElcapView: View {
                 // MARK: - Navigation Buttons
                 HStack {
                     Button {
-                        if progress <= 0.8 {
-                            showPrompt = true
-                        } else {
+                        if progress < 0.2 {
+                            showEmptyAlert = true
+                        } else if progress > 0.8 {
                             showAlert = true
+                        } else {
+                            showPrompt = true
                         }
                     } label: {
                         Text("다음")
@@ -147,10 +150,34 @@ struct ElcapView: View {
                         nextPage = true
                         
                     } content: {
+                        // MARK: - Prompt View
                         PromptView(title: "CHALLENGE STATEMENT") {
-                            Text("hello, world!")
+                            HStack(spacing: 48) {
+                                Image("elcap_miro")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(maxWidth: 360)
+                                
+                                ScrollView {
+                                    VStack(spacing: 48) {
+                                        HStack {
+                                            Text("팀의 방향성이 나오되\n솔루션이 포함되지 않게\n#알잘딱깔센하게")
+                                                .font(.system(size: 36).bold())
+                                            Spacer()
+                                        }
+                                        
+                                        HStack {
+                                            Text("콜리플라워는 팀의 Challenge Statement를 정하는 과정에서 굉장히 많은 시간을 소모했어요. \n처음 정했던 Challenge Statement는 너무 솔루션 함유적인 내용이라는 피드백을 받았고, 다시 정했던 Statement는 너무 포괄적이라 방향성을 잡을 수 없겠다는 피드백을 받았거든요.\n\n많은 시간이 들었지만, 결국 우리 팀만의 적절한 Challenge Statement를 정할 수 있었어요.")
+                                                .font(.system(size: 24))
+                                                .multilineTextAlignment(.leading)
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
+                    // Progress가 0.8 이상일 때 메시지
                     .alert("오류!", isPresented: $showAlert) {
                         Button("확인하지 않기", role: .destructive) {
                             showAlert = false
@@ -161,7 +188,17 @@ struct ElcapView: View {
                     } message: {
                         Text("Challenge Statement에는 Solution이 포함되지 않는 것이 좋습니다.\n\n우리 팀이 나아가야 할 대략적인 방향만을 정해보세요. 이에 동의하지 않지 않으신가요?")
                     }
-                    
+                    // Progress가 0.4 이하일 때 메시지
+                    .alert("오류!", isPresented: $showEmptyAlert) {
+                        Button("확인하지 않기", role: .destructive) {
+                            showEmptyAlert = false
+                        }
+                        Button("부정의 부정", role: .none) {
+                            showEmptyAlert = false
+                        }
+                    } message: {
+                        Text("팀이 충분한 방향을 가지고 Challenge를 진행할 수 있도록 키워드를 골라보세요!")
+                    }
                     
                     
                     Spacer()
