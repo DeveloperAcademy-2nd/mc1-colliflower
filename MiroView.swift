@@ -32,7 +32,7 @@ struct MiroView<Content>: View where Content: View {
                 Spacer()
                 // Title
                 Text(title)
-                    .font(.title)
+                    .font(.system(size: 28))
                     .foregroundColor(Color.white)
                 Spacer()
             }
@@ -46,6 +46,7 @@ struct MiroView<Content>: View where Content: View {
                 HStack {
                     HStack {
                         Text(message)
+                            .font(.system(size: 24))
                             .padding(16)
                         Spacer()
                     }
