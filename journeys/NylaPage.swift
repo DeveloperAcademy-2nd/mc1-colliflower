@@ -30,11 +30,13 @@ struct NylaPage: View {
     
     @State private var showPrompt: Bool = false
     @State private var nextPage: Bool = false
+    @State private var showTiramisu: Bool = false
+    @State private var showAlert: Bool = false
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        MiroView(title: "Our Challenge", message: "To-do 리스트를 세 가지 선택하세요.") {
+        MiroView(title: "Our Challenge", message: "Challenge Statement와 주제가 정해졌다면, 이를 수행하기 위한 To-do 리스트를 세 가지 선택해보세요.") {
             
             VStack {
                 
@@ -58,6 +60,11 @@ struct NylaPage: View {
                         NylaView(isOn: $c2r2, toDoContent: "회의 하기")
                         NylaView(isOn: $c2r3, toDoContent: "워크샵 듣기")
                         NylaView(isOn: $c2r4, toDoContent: "티라미수 먹기")
+                            .onChange(of: c2r4) { newValue in
+                                if countEnables() == 3 && newValue {
+                                    showTiramisu = true
+                                }
+                            }
                         NylaView(isOn: $c2r5, toDoContent: "멘토 피드백 받기")
                     }
                     
@@ -83,7 +90,11 @@ struct NylaPage: View {
                 
                 HStack {
                     Button {
-                        showPrompt = true
+                        if countEnables() == 3 {
+                            showPrompt = true
+                        } else {
+                            showAlert = true
+                        }
                     } label: {
                         Text("다음")
                             .font(.system(size: 32))
@@ -92,10 +103,42 @@ struct NylaPage: View {
                     .sheet(isPresented: $showPrompt) {
                         nextPage = true
                     } content: {
-                        PromptView(title: "") {
-                            // TODO: asdkfjaslkdfjlasdkjf
+                        PromptView(title: "OUR CHALLENGE") {
+                            ScrollView {
+                                VStack {
+                                    HStack {
+                                        Image("Lingo")
+                                            .resizable()
+                                            .frame(width: 100, height: 100)
+                                        Text("초반단계에서부터 결론을 내버리면 안 돼요.")
+                                            .font(.system(size: 25))
+                                            .bold()
+                                    }
+                                    HStack {
+                                        Image("Isaac")
+                                            .resizable()
+                                            .frame(width: 100, height: 100)
+                                        Text("Challenge Statement의 모든 부분을 \n 만족하려 하지는 않아도 된답니다.")
+                                            .font(.system(size: 25))
+                                            .bold()
+                                    }
+                                    Image("MiroNyla")
+                                        .resizable()
+                                        .frame(width: 450, height: 350)
+                                    Text("주제가 변경되기 전 열심히 회의했던 저희의 흔적을\n추억으로 남겨 봤어요.")
+                                        .font(.system(size: 20))
+                                }
+                            }
                         }
                     }
+                    .alert("경고!", isPresented: $showAlert) {
+                        Button("확인", role: .none) {
+                            showAlert = false
+                        }
+                    } message: {
+                        Text("세 개 이상 선택하세요!!")
+                    }
+
 
                     
                     Spacer()
@@ -122,8 +165,13 @@ struct NylaPage: View {
                 .padding(20)
             }
             
+            // 티라미수 뷰
+            NavigationLink("", isActive: $showTiramisu) {
+                TiramisuView()
+            }
+            
             NavigationLink("", isActive: $nextPage) {
-                // TODO: 끝
+                EndingPage()
             }
         }
     }
@@ -146,6 +194,30 @@ struct NylaPage: View {
         c3r3 = true
         c3r4 = true
         c3r5 = true
+    }
+    
+    private func countEnables() -> Int {
+        var count = 0
+        
+        if c1r1 { count += 1 }
+        if c1r2 { count += 1 }
+        if c1r3 { count += 1 }
+        if c1r4 { count += 1 }
+        if c1r5 { count += 1 }
+        
+        if c2r1 { count += 1 }
+        if c2r2 { count += 1 }
+        if c2r3 { count += 1 }
+        if c2r4 { count += 1 }
+        if c2r5 { count += 1 }
+        
+        if c3r1 { count += 1 }
+        if c3r2 { count += 1 }
+        if c3r3 { count += 1 }
+        if c3r4 { count += 1 }
+        if c3r5 { count += 1 }
+        
+        return count
     }
 }
 

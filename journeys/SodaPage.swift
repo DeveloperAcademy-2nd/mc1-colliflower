@@ -11,6 +11,7 @@ struct SodaPage: View {
     
     @State private var showPrompt: Bool = false
     @State private var nextPage: Bool = false
+    @State private var showAlert: Bool = false
     
     var body: some View {
         MiroView(title: "INVESTIGATE", message: "콜리플라워는 주제를 넓히고 좁히는 과정을 정말 많이 반복했습니다.\n이를 정리해 보기 위해 주요 키워드를 확대하여 살펴봅시다.") {
@@ -113,18 +114,89 @@ struct SodaPage: View {
                     
                     HStack {
                         Button("ⓓONE") {
-                            showPrompt = true
+                            if !firstEditor.isEmpty && !secondEditor.isEmpty && !thirdEditor.isEmpty && !fourthEditor.isEmpty {
+                                showPrompt = true
+                            } else {
+                                showAlert = true
+                            }
                         }
+                        .offset(x: -55, y: 30)
                         .font(.system(size: 20))
                         .foregroundColor(.gray)
                         .sheet(isPresented: $showPrompt) {
                             nextPage = true
                         } content: {
-                            PromptView(title: "asdf") {
-                                // TODO: asdfaskldfjaslkdjflaskjdfl
+                            PromptView(title: "INVESTIGATE") {
+                                VStack {
+                                    VStack {
+                                        HStack {
+                                            Image("ThinkingSoda")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 150)
+                                                .padding(.trailing, -30)
+                                            ChatBubble(direction: .left) {
+                                                Text("너무 구체적이지 않아요...?\n이렇게 구체적이면 나중에 힘들 것 같아요...")
+                                                    .padding(.all, 20)
+                                                    .foregroundColor(.black)
+                                                    .background(Color(red: 233/255, green: 233/255, blue: 233/255))
+                                            }
+                                        }
+                                        
+                                        HStack {
+                                            ChatBubble(direction: .right) {
+                                                Text("아니 아무리 그래도 이건 범위가 너무 크자나!\n그렇지 않아요 여러분...?")
+                                                    .padding(.all, 20)
+                                                    .foregroundColor(.white)
+                                                    .background(.blue)
+                                            }
+                                            Image("ThingkingNyla")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 150)
+                                                .padding(.leading, -30)
+                                        }
+                                    }
+                                    HStack {
+                                        Image("Question1")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 250)
+                                        Text("➡️")
+                                        Image("Question2")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 250)
+                                    }
+                                    .padding(.top, 30)
+                                    HStack {
+                                        Spacer()
+                                        Text("⬇️")
+                                            .padding(.trailing, 200)
+                                    }
+                                    HStack {
+                                        Image("Question4")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 250)
+                                        Text("⬅️")
+                                        Image("Question3")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 250)
+                                    }
+                                }
                             }
                         }
+                        .alert("오류!", isPresented: $showAlert) {
+                            Button("확인", role: .none) {
+                                showAlert = false
+                            }
+                        } message: {
+                            Text("주제를 찾아서 적어주세요!")
+                        }
 
+                        
                         
                         Spacer()
                         Button {
@@ -148,6 +220,7 @@ struct SodaPage: View {
                         }
                         .padding(.trailing, 50)
                         .buttonStyle(.borderedProminent)
+                        .disabled(firstEditor.isEmpty || secondEditor.isEmpty || thirdEditor.isEmpty || fourthEditor.isEmpty)
                     }
                 }
                 
@@ -157,5 +230,11 @@ struct SodaPage: View {
                 NylaPage()
             }
         }
+    }
+}
+
+struct sodapreview: PreviewProvider {
+    static var previews: some View {
+        SodaPage()
     }
 }

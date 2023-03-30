@@ -46,7 +46,7 @@ struct HazelPage: View {
                             .font(.system(size: 32))
                     }
                     .foregroundColor(Color(uiColor: .placeholderText))
-
+                    
                     
                     Spacer()
                     Button {
@@ -71,8 +71,24 @@ struct HazelPage: View {
                     .sheet(isPresented: $showAlert) {
                         nextPage = true
                     } content: {
-                        PromptView(title: "asdf") {
+                        PromptView(title: "PRIORITIZE") {
+                            Text("우선순위에 정답은 없답니다!")
+                                .font(.system(size: 45))
+                                .bold()
+                                .padding(30)
                             
+                            Text("각자 생각하는 우선순위가 다를 수 있어요.")
+                                .font(.system(size: 20))
+                            Text("우리가 왜 우선순위를 정했나요? 제한된 시간을 효율적으로 사용하기 위해서였죠!")
+                                .font(.system(size: 20))
+                            Text("앞으론 이 목적을 잊지말고 '적절한' 시간과 협의를 통해 우선순위를 정해보아요.")
+                                .font(.system(size: 20))
+                            
+                            Image("mirohazel")
+                                .resizable()
+                                .scaledToFit()
+                            //                                .frame(width: 650, height: 750)
+                                .padding(50)
                         }
                     }
                     

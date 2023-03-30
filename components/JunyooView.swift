@@ -5,13 +5,10 @@ struct JunyooView: View {
 	@State var tiltAngle: Angle = .degrees(0)
 	@State var tiltedAngle: Angle = .degrees(0)
 	@Binding var progress: Double
-//	@State var image: String
 	@State private var prevProgress: Double = 0
 	var length: CGFloat = 400
 	var personalLine: CGFloat
 	var image: String
-	
-//	@State var progressValue = 0.0
 	
     var body: some View {
 		HStack {
@@ -37,7 +34,6 @@ struct JunyooView: View {
 					.onChanged{ v in
 						prevProgress = progress
 						var theta = (atan2(v.location.x - self.length / 4, self.length / 2 - v.location.y) - atan2(v.startLocation.x - self.length / 4, self.length / 2 - v.startLocation.y)) * 180 / .pi
-//						if (theta < 0) { theta += 360 }
 						if (theta < 0) { theta = theta - theta / 360 }
 						
 						tiltAngle = .degrees(theta) + tiltedAngle

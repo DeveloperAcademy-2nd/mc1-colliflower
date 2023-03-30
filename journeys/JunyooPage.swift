@@ -27,10 +27,10 @@ struct JunyooPage: View {
     
     var body: some View {
         MiroView(title: "INVESTIGATE",
-                 message: " 팀 전체의 방향성을 존중하면서도 내 의견을 피력하는 것이 어렵지는 않았나요? \n 선을 넘지 않도록 적절한 범위에서 의견을 주고받는 것이 쉽지만은 않았을 거예요. \n 팀의 원활한 소통과 협업을 위해 서로간의 다름을 인식하는 것은 중요하답니다.") {
+                 message: "팀 전체의 방향성을 존중하며 자신의 의견을 피력하는 것이 어렵지는 않았나요?\n팀원간 의견이 서로 맞지 않겠지만, 모두가 만족할 수 있는 타협점을 찾아보아요.") {
             VStack {
                 HStack {
-                    Text("각자의 선을 지켜 주세요!")
+                    Text("팀원들의 의견을 조율해 보세요!")
                         .font(.title)
                         .padding(50)
                 }
@@ -60,8 +60,8 @@ struct JunyooPage: View {
             .sheet(isPresented: $showPrompt) {
                 nextPage = true
             } content: {
-                PromptView(title: "asdf") {
-                    // TODO: asdf
+                PromptView(title: "🥳WELL DONE!") {
+					JunyooPromptView()
                 }
             }
 
@@ -121,6 +121,6 @@ struct JunyooPage: View {
 
 struct JunyooPage_Previews: PreviewProvider {
     static var previews: some View {
-        JunyooPage()
+		JunyooPromptView()
     }
 }
